@@ -70,7 +70,7 @@ class Firewall (EventMixin):
     		ipv4_packet = packet.find("ipv4")
             	log.debug('Src: %s(%s), Dst: %s(%s)' % (ipv4_packet.srcip, packet.src, ipv4_packet.dstip, packet.dst))
             
-    def buildTable(filename):
+    def buildTable(self, filename):
         file_a = open('firewall-policies.csv', 'r').readlines()
         acl = []
         if file_a[0] == 'id,mac_0,mac_1\n':
