@@ -41,8 +41,8 @@ class Firewall (EventMixin):
         event.connection.send(msg)
         
         match = of.ofp_match()
-        msg.match.dl_src = EthAddr('00:00:00:00:00:02')
-        msg.match.dl_dst = EthAddr('00:00:00:00:00:01')
+        match.dl_src = EthAddr('00:00:00:00:00:02')
+        match.dl_dst = EthAddr('00:00:00:00:00:01')
         msg = of.ofp_flow_mod()
         msg.match = match
         event.connection.send(msg)
