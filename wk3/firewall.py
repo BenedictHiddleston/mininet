@@ -33,17 +33,17 @@ class Firewall (EventMixin):
 
     def _handle_ConnectionUp (self, event):    
         ''' Add your logic here ... '''
+        match = of.ofp_match()
+        match.dl_src = EthAddr('00:00:00:00:00:01')
+        match.dl_dst = EthAddr('00:00:00:00:00:02')
         msg = of.ofp_flow_mod()
-        msg.match.dl_src = '00:00:00:00:00:01'
-        msg.match.dl_dst = '00:00:00:00:00:02'
-        action = of.ofp_action_output(port = of.OFPP_FLOOD)
-        msg.actions.append(action)
+        msg.match = match
         event.connection.send(msg)
         
         '''
         match = of.ofp_match()
-        match.dl_src = '00:00:00:00:00:02'
-        match.dl_dst = '00:00:00:00:00:01'
+        msg.match.dl_src = EthAddr('00:00:00:00:00:01')
+        msg.match.dl_dst = EthAddr('00:00:00:00:00:02')
         msg = of.ofp_flow_mod()
         msg.match = match
         action = of.ofp_action_output(port = of.OFPP_FLOOD)
