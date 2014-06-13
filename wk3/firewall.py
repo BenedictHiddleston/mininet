@@ -38,20 +38,14 @@ class Firewall (EventMixin):
         match.dl_dst = EthAddr('00:00:00:00:00:02')
         msg = of.ofp_flow_mod()
         msg.match = match
-        #action = of.ofp_action_output(port = of.OFPP_FLOOD)
-        #msg.actions.append(action)
         event.connection.send(msg)
         
-        '''
         match = of.ofp_match()
-        msg.match.dl_src = EthAddr('00:00:00:00:00:01')
-        msg.match.dl_dst = EthAddr('00:00:00:00:00:02')
+        msg.match.dl_src = EthAddr('00:00:00:00:00:02')
+        msg.match.dl_dst = EthAddr('00:00:00:00:00:01')
         msg = of.ofp_flow_mod()
         msg.match = match
-        action = of.ofp_action_output(port = of.OFPP_FLOOD)
-        msg.actions.append(action)
         event.connection.send(msg)
-        '''
         
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
         
@@ -69,10 +63,12 @@ class Firewall (EventMixin):
         for line in file_a:
             accessHash = {}
             line = line.split(',')
+            priority = int(line[0])
             side_a = line[1].strip()
             side_b = line[2].strip()
             accessHash['pair'] = (side_a, side_b)
-            accessHash['access'] = True
+            accessHash['access'] = False
+            accessHash['priority'] = priority
             acl.append(accessHash)
         return acl
 
