@@ -30,7 +30,7 @@ class Firewall (EventMixin):
     def __init__ (self):
         self.listenTo(core.openflow)
         log.debug("Enabling Firewall Module")
-        self.fwl = buildTable(policyFile)
+        self.fwl = self.buildTable(policyFile)
         
 
     def _handle_ConnectionUp (self, event):    
