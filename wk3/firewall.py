@@ -38,6 +38,8 @@ class Firewall (EventMixin):
         match.dl_dst = EthAddr('00:00:00:00:00:02')
         msg = of.ofp_flow_mod()
         msg.match = match
+        action = of.ofp_action_output(port = of.OFPP_FLOOD)
+        msg.actions.append(action)
         event.connection.send(msg)
         
         '''
