@@ -33,10 +33,14 @@ class Firewall (EventMixin):
 
     def _handle_ConnectionUp (self, event):    
         ''' Add your logic here ... '''
-        
-
     
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
+        
+    def _handle_PacketIn (self, event):
+        packet = event.parsed
+        if packet.type == ethernet.IP_TYPE:
+            ipv4_packet = event.parsed.find("ipv4")
+            print 'Src: %s, Dst: %s' % (ipv4_packet.srcip, ipv4_packet.dstip)
         
     def buildTable(filename):
         file_a = open('firewall-policies.csv', 'r').readlines()
