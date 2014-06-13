@@ -33,15 +33,14 @@ class Firewall (EventMixin):
 
     def _handle_ConnectionUp (self, event):    
         ''' Add your logic here ... '''
-        match = of.ofp_match()
-        match.dl_src = '00:00:00:00:00:01'
-        match.dl_dst = '00:00:00:00:00:02'
         msg = of.ofp_flow_mod()
-        msg.match = match
+        msg.match.dl_src = '00:00:00:00:00:01'
+        msg.match.dl_dst = '00:00:00:00:00:02'
         action = of.ofp_action_output(port = of.OFPP_FLOOD)
         msg.actions.append(action)
         event.connection.send(msg)
         
+        '''
         match = of.ofp_match()
         match.dl_src = '00:00:00:00:00:02'
         match.dl_dst = '00:00:00:00:00:01'
@@ -50,6 +49,7 @@ class Firewall (EventMixin):
         action = of.ofp_action_output(port = of.OFPP_FLOOD)
         msg.actions.append(action)
         event.connection.send(msg)
+        '''
         
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
         
