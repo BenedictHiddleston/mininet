@@ -38,7 +38,6 @@ class Firewall (EventMixin):
         ''' Add your logic here ... '''
         
         for rule in self.fwl:
-            print 'Adding rule for pair (%s, %s)' % (rule['pair'][0], rule['pair'][1])
             match = of.ofp_match()
             match.dl_src = EthAddr(rule['pair'][0])
             match.dl_dst = EthAddr(rule['pair'][1])
@@ -46,32 +45,9 @@ class Firewall (EventMixin):
             msg.match = match
             msg.priority = rule['priority']
             event.connection.send(msg)
-            
-            
-        '''
-        match = of.ofp_match()
-        match.dl_src = EthAddr('00:00:00:00:00:01')
-        match.dl_dst = EthAddr('00:00:00:00:00:02')
-        msg = of.ofp_flow_mod()
-        msg.match = match
-        event.connection.send(msg)
-        
-        match = of.ofp_match()
-        match.dl_src = EthAddr('00:00:00:00:00:02')
-        match.dl_dst = EthAddr('00:00:00:00:00:01')
-        msg = of.ofp_flow_mod()
-        msg.match = match
-        event.connection.send(msg)
-        '''
         
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
-        
-    def _handle_PacketIn (self, event):
-        packet = event.parsed
-    	if packet.type == packet.IP_TYPE:
-    		ipv4_packet = packet.find("ipv4")
-            	log.debug('Src: %s(%s), Dst: %s(%s)' % (ipv4_packet.srcip, packet.src, ipv4_packet.dstip, packet.dst))
-            
+                    
     def buildTable(self, filename):
         file_a = open(filename, 'r').readlines()
         acl = []
