@@ -30,9 +30,23 @@ class Firewall (EventMixin):
     def __init__ (self):
         self.listenTo(core.openflow)
         log.debug("Enabling Firewall Module")
+        self.fwl = buildTable(policyFile)
+        
 
     def _handle_ConnectionUp (self, event):    
         ''' Add your logic here ... '''
+        
+        for rule in self.fwl:
+            match = of.ofp_match()
+            match.dl_src = EthAddr(rule['pair'][0])
+            match.dl_dst = EthAddr(rule['pair'][1])
+            msg = of.ofp_flow_mod()
+            msg.match = match
+            msg.priority = rule['priority']
+            event.connection.send(msg)
+            
+            
+        '''
         match = of.ofp_match()
         match.dl_src = EthAddr('00:00:00:00:00:01')
         match.dl_dst = EthAddr('00:00:00:00:00:02')
@@ -46,6 +60,7 @@ class Firewall (EventMixin):
         msg = of.ofp_flow_mod()
         msg.match = match
         event.connection.send(msg)
+        '''
         
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
         
