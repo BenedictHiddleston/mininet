@@ -30,6 +30,7 @@ class Firewall (EventMixin):
     def __init__ (self):
         self.listenTo(core.openflow)
         log.debug("Enabling Firewall Module")
+        log.debug("Reading file %s", policyFile)
         self.fwl = self.buildTable(policyFile)
         
 
@@ -37,6 +38,7 @@ class Firewall (EventMixin):
         ''' Add your logic here ... '''
         
         for rule in self.fwl:
+            print 'Adding rule for pair (%s, %s)' % (rule['pair'][0], rule['pair'][1])
             match = of.ofp_match()
             match.dl_src = EthAddr(rule['pair'][0])
             match.dl_dst = EthAddr(rule['pair'][1])
@@ -71,7 +73,7 @@ class Firewall (EventMixin):
             	log.debug('Src: %s(%s), Dst: %s(%s)' % (ipv4_packet.srcip, packet.src, ipv4_packet.dstip, packet.dst))
             
     def buildTable(self, filename):
-        file_a = open('firewall-policies.csv', 'r').readlines()
+        file_a = open(filename, 'r').readlines()
         acl = []
         if file_a[0] == 'id,mac_0,mac_1\n':
             file_a.pop(0)
