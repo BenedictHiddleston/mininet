@@ -33,14 +33,28 @@ class Firewall (EventMixin):
 
     def _handle_ConnectionUp (self, event):    
         ''' Add your logic here ... '''
-    
+        match = of.ofp_match()
+        match.dl_src = '00:00:00:00:00:01'
+        match.dl_dst = '00:00:00:00:00:02'
+        msg = of.ofp_flow_mod()
+        msg.match = match
+        event.connection.send(msg)
+        
+        match = of.ofp_match()
+        match.dl_src = '00:00:00:00:00:02'
+        match.dl_dst = '00:00:00:00:00:01'
+        msg = of.ofp_flow_mod()
+        msg.match = match
+        event.connection.send(msg)
+        
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
         
     def _handle_PacketIn (self, event):
         packet = event.parsed
-	if packet.type == packet.IP_TYPE:
-		ipv4_packet = packet.find("ipv4")
-        	print 'Src: %s(%s), Dst: %s(%s)' % (ipv4_packet.srcip, packet.src, ipv4_packet.dstip, packet.dst) 
+    	if packet.type == packet.IP_TYPE:
+    		ipv4_packet = packet.find("ipv4")
+            	log.debug('Src: %s(%s), Dst: %s(%s)' % (ipv4_packet.srcip, packet.src, ipv4_packet.dstip, packet.dst))
+            
     def buildTable(filename):
         file_a = open('firewall-policies.csv', 'r').readlines()
         acl = []
