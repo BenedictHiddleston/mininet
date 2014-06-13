@@ -38,6 +38,8 @@ class Firewall (EventMixin):
         match.dl_dst = '00:00:00:00:00:02'
         msg = of.ofp_flow_mod()
         msg.match = match
+        action = of.ofp_action_output(port = of.OFPP_FLOOD)
+        msg.actions.append(action)
         event.connection.send(msg)
         
         match = of.ofp_match()
@@ -45,6 +47,8 @@ class Firewall (EventMixin):
         match.dl_dst = '00:00:00:00:00:01'
         msg = of.ofp_flow_mod()
         msg.match = match
+        action = of.ofp_action_output(port = of.OFPP_FLOOD)
+        msg.actions.append(action)
         event.connection.send(msg)
         
         log.debug("Firewall rules installed on %s", dpidToStr(event.dpid))
