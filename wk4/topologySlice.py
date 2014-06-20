@@ -43,20 +43,19 @@ class TopologySlice (EventMixin):
         """ Add your logic here """
         if dpid == '00-00-00-00-00-01':
             self.port_flows(event, (3,1))
+            self.port_flows(event, (4,2))
+            log.debug("Adding flows for %s.", dpid)
         elif dpid == '00-00-00-00-00-02':
             self.port_flows(event, (1,2))
+            log.debug("Adding flows for %s.", dpid)
+        elif dpid == '00-00-00-00-00-03':
+            self.port_flows(event, (1,2))
+            log.debug("Adding flows for %s.", dpid)            
         elif dpid == '00-00-00-00-00-04':
             self.port_flows(event, (1,3))
+            self.port_flows(event, (2,4))
+            log.debug("Adding flows for %s.", dpid)
             
-            '''
-            match = of.ofp_match()
-            match.in_port = 3
-            match.dl_dst = EthAddr(rule['pair'][1])
-            msg = of.ofp_flow_mod()
-            msg.match = match
-            msg.priority = rule['priority']
-            event.connection.send(msg)
-            '''
         
     def port_flows(self, event, port_tuple):
         match = of.ofp_match()
