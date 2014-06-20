@@ -37,11 +37,11 @@ class TopologySlice (EventMixin):
         # Use dpid to differentiate between switches (datapath-id)
         # Each switch has its own flow table. As we'll see in this 
         # example we need to write different rules in different tables.
-        dpid = int(dpidToStr(event.dpid))
+        dpid = dpidToStr(event.dpid)
         log.debug("Switch %s has come up.", dpid)
         
         """ Add your logic here """
-        if dpid == 1:
+        if dpid == '00-00-00-00-00-01':
             self.port_flows(event, (3,1))
             '''
             match = of.ofp_match()
