@@ -43,6 +43,11 @@ class TopologySlice (EventMixin):
         """ Add your logic here """
         if dpid == '00-00-00-00-00-01':
             self.port_flows(event, (3,1))
+        elif dpid == '00-00-00-00-00-02':
+            self.port_flows(event, (1,2))
+        elif dpid == '00-00-00-00-00-04':
+            self.port_flows(event, (1,3))
+            
             '''
             match = of.ofp_match()
             match.in_port = 3
