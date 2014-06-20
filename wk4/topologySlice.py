@@ -58,7 +58,7 @@ class TopologySlice (EventMixin):
         match.in_port = port_tuple[0]
         msg = of.ofp_flow_mod()
         msg.match = match
-        msg.action.append(of.ofp_action_output(port = port_tuple[1]))
+        msg.actions.append(of.ofp_action_output(port = port_tuple[1]))
         event.connection.send(msg)
         
 
