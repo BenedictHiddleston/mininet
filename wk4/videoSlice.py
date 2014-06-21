@@ -90,7 +90,7 @@ class VideoSlice (EventMixin):
             msg.in_port = event.port
             event.connection.send(msg)
 
-        def forward (tcpp = None, message = None):
+        def forward (message = None):
             this_dpid = dpid_to_str(event.dpid)
 
             if packet.dst.is_multicast:
@@ -101,6 +101,7 @@ class VideoSlice (EventMixin):
                           packet.dst, dpid_to_str(event.dpid), event.port)
                 log.debug("Else tcpp: %s", tcpp)
                 log.debug("Else tcpp Type: %s", type(tcpp))
+                log.debug("Else packet dir: %s", dir(packet))
 
                 try:
                     log.debug("Try tcpp: %s", tcpp)
@@ -122,7 +123,7 @@ class VideoSlice (EventMixin):
             msg.in_port = event.port
             event.connection.send(msg)
 
-        forward(tcpp)
+        forward()
 
 
     def _handle_ConnectionUp(self, event):
