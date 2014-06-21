@@ -105,7 +105,7 @@ class VideoSlice (EventMixin):
 
                 try:
                     if event.parsed.find('arp'):
-                        raise
+                        install_fwdrule(event,packet,of.OFPP_FLOOD)
                         
                     log.debug("Try tcpp: %s", tcpp)
                     log.debug("Try tcpp Type: %s", type(tcpp))
