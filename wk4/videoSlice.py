@@ -104,6 +104,9 @@ class VideoSlice (EventMixin):
                 log.debug("Else packet dir: %s", dir(packet))
 
                 try:
+                    if event.parsed.find('arp'):
+                        raise
+                        
                     log.debug("Try tcpp: %s", tcpp)
                     log.debug("Try tcpp Type: %s", type(tcpp))
                     
