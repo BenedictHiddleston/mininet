@@ -102,6 +102,7 @@ class VideoSlice (EventMixin):
 
 
                 try:
+                    tcpp = event.parsed.find('tcp')
                     log.debug("tcpp: %s", tcpp)
                     log.debug("tcpp Type: %s", type(tcpp))
                     
