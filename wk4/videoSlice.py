@@ -104,6 +104,7 @@ class VideoSlice (EventMixin):
                     if tcpp:
                         if tcpp.dstport == 80:
                             log.debug("Src: %s Dst: %s, dpid: %s" % (packet.src, packet.dst, this_dpid))
+                            install_fwdrule(event,packet,of.OFPP_FLOOD)
                     
 
                 except AttributeError:
