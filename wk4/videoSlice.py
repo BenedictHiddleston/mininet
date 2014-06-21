@@ -108,11 +108,16 @@ class VideoSlice (EventMixin):
                         log.debug("Try packet: %s", packet)
                         log.debug("Try event: %s", event)
                         log.debug("Try tcpp Type: %s", type(tcpp))
-                        log.debug("Try tcpp Src: %s Dst: %s Dport: %s", packet.src, packet.dst, tcpp.dstport)
+                        outport = self.portmap[(this_dpid, EthAddr(packet.src),EthAddr(packet.dst), tcpp.dstport)]
+                        install_fwdrule(event, packet, outport)
+                        log.debug("Installed rule for Src: %s Dst: %s Dport: %s", packet.src, packet.dst, tcpp.dstport)
                     
-
+                
+                except KeyError:
+                    log.debug("TCP packet type has no transport ports, flooding.")
+                    install_fwdrule(event,packet,of.OFPP_FLOOD)
                 except AttributeError:
-                    log.debug("packet type has no transport ports, flooding")
+                    log.debug("Generic packet type has no transport ports, flooding.")
 
                     # flood and install the flow table entry for the flood
                     install_fwdrule(event,packet,of.OFPP_FLOOD)
