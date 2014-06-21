@@ -101,7 +101,7 @@ class VideoSlice (EventMixin):
                           packet.dst, dpid_to_str(event.dpid), event.port)
                 log.debug("Dir: %s", dir(tcpp))
 
-                try:
+                #try:
                     #continue
                     
 
