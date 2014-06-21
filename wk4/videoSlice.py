@@ -101,8 +101,7 @@ class VideoSlice (EventMixin):
                           packet.dst, dpid_to_str(event.dpid), event.port)
 
                 try:
-                    if tcpp:
-                        log.debug("Source: %s Dst: %s DPort: %s, dpid: %s" % (packet.src, packet.dst, tcpp.dstport, this_dpid))
+                    log.debug("Source: %s Dst: %s DPort: %s, dpid: %s" % (packet.src, packet.dst, tcpp.dstport, this_dpid))
                     
 
                 except AttributeError:
