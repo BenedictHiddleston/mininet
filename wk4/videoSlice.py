@@ -99,12 +99,13 @@ class VideoSlice (EventMixin):
             else:
                 log.debug("Got unicast packet for %s at %s (input port %d):",
                           packet.dst, dpid_to_str(event.dpid), event.port)
+                log.debug("Else tcpp: %s", tcpp)
+                log.debug("Else tcpp Type: %s", type(tcpp))
 
 
                 try:
-                    tcpp = event.parsed.find('tcp')
-                    log.debug("tcpp: %s", tcpp)
-                    log.debug("tcpp Type: %s", type(tcpp))
+                    log.debug("Try tcpp: %s", tcpp)
+                    log.debug("Try tcpp Type: %s", type(tcpp))
                     
 
                 except AttributeError:
