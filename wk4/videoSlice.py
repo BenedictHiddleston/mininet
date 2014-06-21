@@ -102,7 +102,7 @@ class VideoSlice (EventMixin):
                 log.debug("Dir: %s", dir(tcpp))
 
                 try:
-                    log.debug("ignore"
+                    log.debug("ignore")
                     
 
                 except AttributeError:
