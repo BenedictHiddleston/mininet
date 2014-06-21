@@ -101,7 +101,7 @@ class VideoSlice (EventMixin):
                           packet.dst, dpid_to_str(event.dpid), event.port)
 
                 try:
-                    if event.parsed.find('arp'):
+                    if event.parsed.find('arp') or event.parsed.find('icmp'):
                         #log.debug("ARP packet type has no transport ports, flooding.")
                         install_fwdrule(event,packet,of.OFPP_FLOOD)
                     elif event.parsed.find('tcp'):
