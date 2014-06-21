@@ -99,16 +99,14 @@ class VideoSlice (EventMixin):
             else:
                 log.debug("Got unicast packet for %s at %s (input port %d):",
                           packet.dst, dpid_to_str(event.dpid), event.port)
-                log.debug("Else tcpp: %s", tcpp)
-                log.debug("Else tcpp Type: %s", type(tcpp))
-                log.debug("Else packet dir: %s", dir(packet))
 
                 try:
                     if event.parsed.find('arp'):
                         install_fwdrule(event,packet,of.OFPP_FLOOD)
-                        
-                    log.debug("Try tcpp: %s", tcpp)
-                    log.debug("Try tcpp Type: %s", type(tcpp))
+                    elif event.parsed.find('tcp')                        
+                        log.debug("Try tcpp: %s", tcpp)
+                        log.debug("Try tcpp Type: %s", type(tcpp))
+                        log.debug("Try tcpp Type: %s", dir(tcpp))
                     
 
                 except AttributeError:
