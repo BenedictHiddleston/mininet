@@ -105,8 +105,10 @@ class VideoSlice (EventMixin):
                         install_fwdrule(event,packet,of.OFPP_FLOOD)
                     elif event.parsed.find('tcp'):
                         log.debug("Try tcpp: %s", tcpp)
+                        log.debug("Try packet: %s", packet)
+                        log.debug("Try event: %s", event)
                         log.debug("Try tcpp Type: %s", type(tcpp))
-                        log.debug("Try tcpp Type: %s", dir(tcpp))
+                        log.debug("Try tcpp Src: %s Dst: %s Dport: %s", packet.src, packet.dst, tcpp.dstport)
                     
 
                 except AttributeError:
