@@ -112,8 +112,20 @@ class VideoSlice (EventMixin):
                         #log.debug("ARP packet type has no transport ports, flooding.")
                         install_fwdrule(event,packet,of.OFPP_FLOOD)
                     elif event.parsed.find('tcp'):
-                        outport = self.portmap[(this_dpid, EthAddr(packet.src),EthAddr(packet.dst), tcpp.dstport)]
-                        install_fwdrule(event, packet, outport)
+                        if tcpp.dstport == 80:
+                            outport = self.portmap[(this_dpid, EthAddr(packet.src),EthAddr(packet.dst), tcpp.dstport)]
+                            install_fwdrule(event, packet, outport)
+                        elif tcpp.srcport == 80:
+                            outport = self.portmap[(this_dpid, EthAddr(packet.src),EthAddr(packet.dst), tcpp.srcport)]
+                            install_fwdrule(event, packet, outport)
+                        elif tcpp.dstport == 22:
+                            outport = self.portmap[(this_dpid, EthAddr(packet.src),EthAddr(packet.dst), tcpp.dstport)]
+                            install_fwdrule(event, packet, outport)                            
+                        elif tcpp.srcport == 22:
+                            outport = self.portmap[(this_dpid, EthAddr(packet.src),EthAddr(packet.dst), tcpp.srcport)]
+                            install_fwdrule(event, packet, outport)                            
+                            
+                            
                         log.debug("Sw: %s adding rule Src: %s Dst: %s Dport: %s out port: %d", this_dpid, packet.src, packet.dst, tcpp.dstport, outport)
                 
                 except KeyError:
