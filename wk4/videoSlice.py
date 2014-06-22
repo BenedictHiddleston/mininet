@@ -113,7 +113,7 @@ class VideoSlice (EventMixin):
                         install_fwdrule(event,packet,of.OFPP_FLOOD)
                     elif event.parsed.find('tcp'):
                         outport = self.portmap[(this_dpid, EthAddr(packet.src),EthAddr(packet.dst), tcpp.dstport)]
-                        install_fwdrule(event, packet, outpor_a)
+                        install_fwdrule(event, packet, outport)
                         log.debug("Sw: %s adding rule Src: %s Dst: %s Dport: %s out port: %d", this_dpid, packet.src, packet.dst, tcpp.dstport, outport)
                 
                 except KeyError:
